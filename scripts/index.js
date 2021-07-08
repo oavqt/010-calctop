@@ -36,8 +36,12 @@ function description() {
   const button = document.createElement('button');
   const tags = document.createElement('a');
   title.className = 'container__description__title';
+  title.textContent = 'Project C';
   information.className = 'container__description__information';
+  information.textContent =
+    'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit ipsam aperiam temporibus reiciendis. Nihil dolorum natus, velit ducimus fuga quibusdam eum explicabo inventore aut, veritatis quam, illum atque maiores? Repellat!';
   button.className = 'container__description__button';
+  button.textContent = 'Download for Windows'
   tags.className = 'container__description__tags';
   description.appendChild(title);
   description.appendChild(information);
