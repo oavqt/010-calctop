@@ -1,6 +1,6 @@
-//calc
+// calc
 
-//operator functions
+// operator functions
 
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
@@ -12,20 +12,20 @@ const square = (a, b) => a ** b;
 const root = (a) => Math.sqrt(a);
 
 const operators = [
-  { add: add },
-  { subtract: subtract },
-  { multiply: multiply },
-  { divide: divide },
-  { fraction: fraction },
-  { percentage: percentage },
-  { square: square },
-  { root: root },
+  { add },
+  { subtract },
+  { multiply },
+  { divide },
+  { fraction },
+  { percentage },
+  { square },
+  { root },
 ];
 
-//operator call function
+// operator call function
 
 const operate = (a, input, b = 0) => {
-  let result = operators.find((operator) => operator[input]);
+  const result = operators.find((operator) => operator[input]);
   return result[input](a, b);
 };
 

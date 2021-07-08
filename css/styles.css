@@ -41,22 +41,22 @@ body {
   width: 2em;
   height: 100%;
 }
-.container__calculator__content {
+.container__calculator__container {
   display: flex;
   width: 100%;
   height: 100%;
 }
-.container__calculator__content__display {
+.container__calculator__container__display {
   width: 75%;
   height: 100%;
   background-color: yellow;
 }
-.container__calculator__content__history {
+.container__calculator__container__history {
   background-color: aqua;
   width: 25%;
   height: 100%;
 }
-.container__description {
+.container__information {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
