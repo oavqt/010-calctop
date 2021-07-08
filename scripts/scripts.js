@@ -1,5 +1,22 @@
 //calc
 
+document.onload = content();
+
+//create content interface
+
+function content() {
+  const content = document.querySelector('.content');
+  const container = document.createElement('div');
+  const calculator = document.createElement('div');
+  const description = document.createElement('div');
+  container.className = 'content__container';
+  calculator.className = 'content__container__calculator';
+  description.className = 'content__container__description';
+  content.appendChild(container);
+  container.appendChild(calculator);
+  container.appendChild(description);
+}
+
 //operator functions
 
 const add = (a, b) => a + b;
