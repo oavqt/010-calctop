@@ -2,7 +2,7 @@
 
 // create content interface
 
-function createCont() {
+function cContainer() {
   const container = document.querySelector('.container');
   const calculator = document.createElement('div');
   const information = document.createElement('div');
@@ -12,17 +12,17 @@ function createCont() {
   container.appendChild(information);
 }
 
-function createCalc() {
+function cCalculator() {
   const calculator = document.querySelector('.container__calculator');
   const bar = document.createElement('div');
   const container = document.createElement('div');
   bar.className = 'container__calculator__bar';
-  container.className = 'container__calculator__container';
+  container.className = 'container__calculator__display';
   calculator.appendChild(bar);
   calculator.appendChild(container);
 }
 
-function createCalcBar() {
+function cCalculatorTopBar() {
   const bar = document.querySelector('.container__calculator__bar');
   const title = document.createElement('h1');
   title.className = 'container__calculator__bar__title';
@@ -35,28 +35,28 @@ function createCalcBar() {
   }
 }
 
-function createCalcCont() {
-  const container = document.querySelector('.container__calculator__container');
+function cCalculatorContainer() {
+  const container = document.querySelector('.container__calculator__display');
   const display = document.createElement('div');
   const history = document.createElement('div');
-  display.className = 'container__calculator__container__display';
-  history.className = 'container__calculator__container__history';
+  display.className = 'container__calculator__display__calculator';
+  history.className = 'container__calculator__display__history';
   container.appendChild(display);
   container.appendChild(history);
 }
-function createCalcDisp() {
+function cCalculatorDisplay() {
   const display = document.querySelector(
-    '.container__calculator__container__display'
+    '.container__calculator__display__calculator'
   );
   const screen = document.createElement('div');
   const keypad = document.createElement('div');
-  screen.className = 'container__calculator__container__display__screen';
-  keypad.className = 'container__calculator__container__display__keypad';
+  screen.className = 'container__calculator__display__calculator__screen';
+  keypad.className = 'container__calculator__display__calculator__keypad';
   display.appendChild(screen);
   display.appendChild(keypad);
 }
 
-function createInfo() {
+function cProductInformation() {
   const information = document.querySelector('.container__information');
   const title = document.createElement('h1');
   const description = document.createElement('p');
@@ -77,12 +77,12 @@ function createInfo() {
 }
 
 window.onload = function () {
-  createCont();
-  createCalc();
-  createInfo();
-  createCalcBar();
-  createCalcCont();
-  createCalcDisp();
+  cContainer();
+  cCalculator();
+  cProductInformation();
+  cCalculatorTopBar();
+  cCalculatorContainer();
+  cCalculatorDisplay();
 };
 
 //

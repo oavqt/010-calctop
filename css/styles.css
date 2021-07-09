@@ -41,17 +41,17 @@ body {
   width: 2em;
   height: 100%;
 }
-.container__calculator__container {
+.container__calculator__display {
   display: flex;
   width: 100%;
   height: 100%;
 }
-.container__calculator__container__display {
+.container__calculator__display__calculator {
   width: 75%;
   height: 100%;
   background-color: yellow;
 }
-.container__calculator__container__history {
+.container__calculator__display__history {
   background-color: aqua;
   width: 25%;
   height: 100%;
