@@ -56,6 +56,34 @@ function cCalculatorDisplay() {
   display.appendChild(keypad);
 }
 
+function cScreen() {
+  const screen = document.querySelector(
+    '.container__calculator__display__calculator__screen'
+  );
+  const operation = document.createElement('p');
+  const result = document.createElement('h1');
+  operation.className =
+    'container__calculator__display__calculator__screen__operation';
+  result.className =
+    'container__calculator__display__calculator__screen__result';
+  operation.textContent = '0123456789 * 0123456789';
+  result.textContent = '0123456789';
+  screen.appendChild(operation);
+  screen.appendChild(result);
+}
+
+function ckeypad() {
+  const keypad = document.querySelector(
+    '.container__calculator__display__calculator__keypad'
+  );
+  for (let i = 0; i < 24; i++) {
+    const button = document.createElement('button');
+    button.className =
+      'container__calculator__display__calculator__keypad__button';
+    keypad.appendChild(button);
+  }
+}
+
 function cProductInformation() {
   const information = document.querySelector('.container__information');
   const title = document.createElement('h1');
@@ -83,6 +111,8 @@ window.onload = function () {
   cCalculatorTopBar();
   cCalculatorContainer();
   cCalculatorDisplay();
+  cScreen();
+  ckeypad();
 };
 
 //
