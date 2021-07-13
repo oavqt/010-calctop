@@ -35,6 +35,14 @@ function cCalculatorTopBar() {
   }
 }
 
+function cMaxMinClose() {
+  const bar = document.querySelector('.container__calculator__bar');
+  let buttons = bar.children;
+  buttons[1].classList.add('container__calculator__bar__button__min');
+  buttons[2].classList.add('container__calculator__bar__button__max');
+  buttons[3].classList.add('container__calculator__bar__button__close');
+}
+
 function cCalculatorContainer() {
   const container = document.querySelector('.container__calculator__display');
   const display = document.createElement('div');
@@ -44,6 +52,7 @@ function cCalculatorContainer() {
   container.appendChild(display);
   container.appendChild(history);
 }
+
 function cCalculatorDisplay() {
   const display = document.querySelector(
     '.container__calculator__display__calculator'
@@ -84,6 +93,109 @@ function ckeypad() {
   }
 }
 
+function ckeys() {
+  const keypad = document.querySelector(
+    '.container__calculator__display__calculator__keypad'
+  );
+  let buttons = keypad.children;
+  buttons[0].classList.add(
+    'container__calculator__display__calculator__keypad__percentage'
+  );
+  buttons[0].textContent = '%';
+  buttons[1].classList.add(
+    'container__calculator__display__calculator__keypad__ce'
+  );
+  buttons[1].textContent = 'ce';
+  buttons[2].classList.add(
+    'container__calculator__display__calculator__keypad__c'
+  );
+  buttons[2].textContent = 'c';
+  buttons[3].classList.add(
+    'container__calculator__display__calculator__keypad__x'
+  );
+  buttons[3].textContent = '<--';
+  buttons[4].classList.add(
+    'container__calculator__display__calculator__keypad__fraction'
+  );
+  buttons[4].textContent = '¹/x';
+  buttons[5].classList.add(
+    'container__calculator__display__calculator__keypad__square'
+  );
+  buttons[5].textContent = 'x²';
+  buttons[6].classList.add(
+    'container__calculator__display__calculator__keypad__root'
+  );
+  buttons[6].textContent = '²√x';
+  buttons[7].classList.add(
+    'container__calculator__display__calculator__keypad__divide'
+  );
+  buttons[7].textContent = '÷';
+  buttons[8].classList.add(
+    'container__calculator__display__calculator__keypad__7'
+  );
+  buttons[8].textContent = '7';
+  buttons[9].classList.add(
+    'container__calculator__display__calculator__keypad__8'
+  );
+  buttons[9].textContent = '8';
+  buttons[10].classList.add(
+    'container__calculator__display__calculator__keypad__9'
+  );
+  buttons[10].textContent = '9';
+  buttons[11].classList.add(
+    'container__calculator__display__calculator__keypad__multiply'
+  );
+  buttons[11].textContent = '×';
+  buttons[12].classList.add(
+    'container__calculator__display__calculator__keypad__4'
+  );
+  buttons[12].textContent = '4';
+  buttons[13].classList.add(
+    'container__calculator__display__calculator__keypad__5'
+  );
+  buttons[13].textContent = '5';
+  buttons[14].classList.add(
+    'container__calculator__display__calculator__keypad__6'
+  );
+  buttons[14].textContent = '6';
+  buttons[15].classList.add(
+    'container__calculator__display__calculator__keypad__subtract'
+  );
+  buttons[15].textContent = '−';
+  buttons[16].classList.add(
+    'container__calculator__display__calculator__keypad__1'
+  );
+  buttons[16].textContent = '1';
+  buttons[17].classList.add(
+    'container__calculator__display__calculator__keypad__2'
+  );
+  buttons[17].textContent = '2';
+  buttons[18].classList.add(
+    'container__calculator__display__calculator__keypad__3'
+  );
+  buttons[18].textContent = '3';
+  buttons[19].classList.add(
+    'container__calculator__display__calculator__keypad__add'
+  );
+  buttons[19].textContent = '+';
+  buttons[20].classList.add(
+    'container__calculator__display__calculator__keypad__negative'
+  );
+  buttons[20].textContent = '⁺/-';
+  buttons[21].classList.add(
+    'container__calculator__display__calculator__keypad__0'
+  );
+  buttons[21].textContent = '0';
+  buttons[22].classList.add(
+    'container__calculator__display__calculator__keypad__decimal'
+  );
+  buttons[22].textContent = '.';
+  buttons[23].classList.add(
+    'container__calculator__display__calculator__keypad__result'
+  );
+  buttons[23].textContent = '=';
+}
+
 function cProductInformation() {
   const information = document.querySelector('.container__information');
   const title = document.createElement('h1');
@@ -104,15 +216,32 @@ function cProductInformation() {
   information.appendChild(tags);
 }
 
+function ctags() {
+  const tags = document.querySelector('.container__information__tags');
+  const github = document.createElement('img');
+  const gitlogo = document.createElement('img');
+  tags.href = 'https://github.com/oavqt';
+  tags.target = '_blank';
+  github.src = '../images/github.png';
+  gitlogo.src = '../images/gitlogo.png';
+  github.className = 'container__information__tags__github';
+  gitlogo.className = 'container__information__tags__gitlogo';
+  tags.appendChild(github);
+  tags.appendChild(gitlogo);
+  tags.insertAdjacentHTML('beforeend', 'Oav');
+}
 window.onload = function () {
   cContainer();
   cCalculator();
   cProductInformation();
+  ctags();
   cCalculatorTopBar();
+  cMaxMinClose();
   cCalculatorContainer();
   cCalculatorDisplay();
   cScreen();
   ckeypad();
+  ckeys();
 };
 
 //

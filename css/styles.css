@@ -20,13 +20,11 @@ body {
   width: 50em;
   height: 25em;
   background-color: #1f1f23;
+  padding: 0 0 0.2em 0.2em;
 }
 .container__calculator__bar {
   display: grid;
   grid-template-columns: 1fr repeat(3, 2em);
-  gap: 0.1em;
-  max-width: 100%;
-  height: 1em;
 }
 .container__calculator__bar__title {
   height: 100%;
@@ -43,10 +41,33 @@ body {
   height: 100%;
   opacity: 0.5;
   border: none;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: transparent;
 }
 .container__calculator__bar__button:hover {
   background-color: rgba(255, 255, 255, 0.4);
+}
+.container__calculator__bar__button__min {
+  background-image: url(../images/min.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+.container__calculator__bar__button__max {
+  background-image: url(../images/max.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.container__calculator__bar__button__close {
+  background-image: url(../images/close.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+.container__calculator__bar__button__close:hover {
+  background-color: red;
+  opacity: 1;
 }
 .container__calculator__display {
   display: flex;
@@ -77,11 +98,11 @@ body {
 .container__calculator__display__calculator__keypad {
   display: grid;
   grid-template: repeat(6, 1fr) / repeat(4, 1fr);
-  gap: 0.1em;
+  gap: 0.2em;
   height: 60%;
 }
 .container__calculator__display__calculator__keypad__button {
-  opacity: 0.5;
+  color: white;
   background-color: rgba(0, 0, 0, 0.4);
   border: none;
 }
@@ -114,4 +135,20 @@ body {
 .container__information__button:hover {
   cursor: pointer;
   background-color: #db2b3ac0;
+}
+.container__information__tags {
+  color: white;
+  margin-top: 2em;
+  text-align: center;
+  font-size: 1.1rem;
+  text-decoration: none;
+}
+.container__information__tags__github {
+  width: 3em;
+  height: auto;
+}
+.container__information__tags__gitlogo {
+  width: 1.5em;
+  height: auto;
+  margin-right: 0.1em;
 }
