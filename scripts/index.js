@@ -222,8 +222,8 @@ function ctags() {
   const gitlogo = document.createElement('img');
   tags.href = 'https://github.com/oavqt';
   tags.target = '_blank';
-  github.src = '../images/github.png';
-  gitlogo.src = '../images/gitlogo.png';
+  github.src = 'images/github.png';
+  gitlogo.src = 'images/gitlogo.png';
   github.className = 'container__information__tags__github';
   gitlogo.className = 'container__information__tags__gitlogo';
   tags.appendChild(github);
