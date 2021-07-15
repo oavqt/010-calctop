@@ -8,7 +8,7 @@ const multiply = (a, b) => a * b;
 const divide = (a, b) => a / b;
 const fraction = (a) => 1 / a;
 const percentage = (a, b) => (b / 100) * a;
-const square = (a, b) => a ** b;
+const square = (a) => a ** 2;
 const root = (a) => Math.sqrt(a);
 
 const operators = [
@@ -88,9 +88,7 @@ function operationDisplay() {
   if (result.textContent === '0') {
     operation.textContent = `${0} ${this.textContent} `;
   } else {
-    operation.textContent = `${displayResult.toLocaleString()} ${
-      this.textContent
-    }`;
+    operation.textContent = `${operandB} ${this.textContent}`;
     operandA = result.textContent.replace(/([^\d.])/g, '');
     currentOperator = this;
     nextOperand = true;
@@ -100,10 +98,28 @@ function operationDisplay() {
 const clearE = document.querySelector(
   '.container__calculator__display__calculator__keypad__ce'
 );
+const clear = document.querySelector(
+  '.container__calculator__display__calculator__keypad__c'
+);
+const backspace = document.querySelector(
+  '.container__calculator__display__calculator__keypad__backspace'
+);
 
 clearE.addEventListener('click', () => {
   result.textContent = '';
   operation.textContent = '';
+  operandB = '';
+  operandA = '0';
+  currentOperator = '';
+});
+clear.addEventListener('click', () => {
+  result.textContent = '0';
+});
+backspace.addEventListener('click', () => {
+  result.textContent = (+result.textContent
+    .replace(/([^\d.])/g, '')
+    .slice(0, -1)).toLocaleString();
+  operandB = result.textContent.replace(/([^\d.])/g, '');
 });
 
 const equal = document.querySelector(
@@ -111,14 +127,17 @@ const equal = document.querySelector(
 );
 
 equal.addEventListener('click', () => {
-  let operationResult = operate(+operandA, currentOperator.value, +operandB);
-  console.log(operationResult);
-  if (operationResult.toString().length > 16) {
-    result.textContent = operationResult.toExponential();
+  if (currentOperator === '') {
+    operation.textContent = `${operandB} =`;
   } else {
-    result.textContent = operationResult.toLocaleString();
+    let operationResult = operate(+operandA, currentOperator.value, +operandB);
+    if (operationResult.toString().length > 16) {
+      result.textContent = operationResult.toExponential();
+    } else {
+      result.textContent = operationResult.toLocaleString();
+    }
+    operation.textContent = `${operandA} ${currentOperator.textContent} ${operandB} =`;
   }
-  operation.textContent = `${operandA} ${currentOperator.textContent} ${operandB} =`;
   done = true;
 });
 
@@ -129,7 +148,9 @@ const xoperators = [
 ];
 
 xoperators.forEach((xoperator) => {
-  xoperator.addEventListener('click', () => {
-    console.log(this.value);
-  });
+  xoperator.addEventListener('click', test);
 });
+
+function test() {
+  result.textContent = xoperate(+operandB, this.value);
+}
