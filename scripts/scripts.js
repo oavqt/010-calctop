@@ -54,7 +54,7 @@ const operation = document.querySelector(
 
 let workingResult = '';
 let displayResult = '';
-let operandA = '0';
+let operandA = '';
 let operandB = '';
 let currentOperator = '';
 let nextOperand;
@@ -80,19 +80,22 @@ function resultDisplay() {
   nextOperand = false;
   done = false;
 }
+
 operator.forEach((oper) => {
   oper.addEventListener('click', operationDisplay);
 });
 
 function operationDisplay() {
+  operandA = result.textContent.replace(/([^\d.])/g, '');
   if (result.textContent === '0') {
     operation.textContent = `${0} ${this.textContent} `;
   } else {
-    operation.textContent = `${operandB} ${this.textContent}`;
-    operandA = result.textContent.replace(/([^\d.])/g, '');
-    currentOperator = this;
-    nextOperand = true;
+    operation.textContent = `${operandA} ${this.textContent}`;
   }
+  currentOperator = this;
+  nextOperand = true;
+
+  if (operation.textContent ===)
 }
 
 const clearE = document.querySelector(
@@ -109,7 +112,7 @@ clearE.addEventListener('click', () => {
   result.textContent = '';
   operation.textContent = '';
   operandB = '';
-  operandA = '0';
+  operandA = '';
   currentOperator = '';
 });
 clear.addEventListener('click', () => {
@@ -126,7 +129,9 @@ const equal = document.querySelector(
   '.container__calculator__display__calculator__keypad__equal'
 );
 
-equal.addEventListener('click', () => {
+equal.addEventListener('click', calloperate);
+
+function calloperate() {
   if (currentOperator === '') {
     operation.textContent = `${operandB} =`;
   } else {
@@ -137,10 +142,10 @@ equal.addEventListener('click', () => {
       result.textContent = operationResult.toLocaleString();
     }
     operation.textContent = `${operandA} ${currentOperator.textContent} ${operandB} =`;
+    operandA = result.textContent.replace(/([^\d.])/g, '');
   }
   done = true;
-});
-
+}
 const xoperators = [
   ...document.querySelectorAll(
     '.container__calculator__display__calculator__keypad__xoperator'
@@ -153,4 +158,5 @@ xoperators.forEach((xoperator) => {
 
 function test() {
   result.textContent = xoperate(+operandB, this.value);
+  operandB = (+result.textContent).toLocaleString();
 }

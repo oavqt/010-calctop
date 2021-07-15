@@ -92,7 +92,6 @@ body {
 }
 .container__calculator__display__calculator__screen__result {
   font-size: 2.5rem;
-  direction: rtl;
   margin: 0;
   padding: 0;
 }
@@ -108,7 +107,10 @@ body {
   border: none;
 }
 .container__calculator__display__calculator__keypad__button:hover {
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.container__calculator__display__calculator__keypad__button:active {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 .container__calculator__display__history {
   width: 40%;
