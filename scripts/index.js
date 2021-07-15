@@ -101,6 +101,7 @@ function cKeys() {
     'container__calculator__display__calculator__keypad__percentage'
   );
   buttons[0].textContent = '%';
+  buttons[0].value = 'percentage';
   buttons[1].classList.add(
     'container__calculator__display__calculator__keypad__ce'
   );
@@ -110,79 +111,86 @@ function cKeys() {
   );
   buttons[2].textContent = 'c';
   buttons[3].classList.add(
-    'container__calculator__display__calculator__keypad__x'
+    'container__calculator__display__calculator__keypad__backspace'
   );
   buttons[3].textContent = '⤺';
   buttons[4].classList.add(
-    'container__calculator__display__calculator__keypad__fraction'
+    'container__calculator__display__calculator__keypad__xoperator'
   );
   buttons[4].textContent = '¹ / x';
+  buttons[4].value = 'fraction';
   buttons[5].classList.add(
-    'container__calculator__display__calculator__keypad__square'
+    'container__calculator__display__calculator__keypad__xoperator'
   );
   buttons[5].textContent = 'x ²';
+  buttons[5].value = 'square';
   buttons[6].classList.add(
-    'container__calculator__display__calculator__keypad__root'
+    'container__calculator__display__calculator__keypad__xoperator'
   );
   buttons[6].textContent = '² √ x';
+  buttons[6].value = 'root';
   buttons[7].classList.add(
     'container__calculator__display__calculator__keypad__operator'
   );
   buttons[7].textContent = '÷';
+  buttons[7].value = 'divide';
   buttons[8].classList.add(
-    'container__calculator__display__calculator__keypad__digit'
+    'container__calculator__display__calculator__keypad__operand'
   );
   buttons[8].textContent = '7';
   buttons[9].classList.add(
-    'container__calculator__display__calculator__keypad__digit'
+    'container__calculator__display__calculator__keypad__operand'
   );
   buttons[9].textContent = '8';
   buttons[10].classList.add(
-    'container__calculator__display__calculator__keypad__digit'
+    'container__calculator__display__calculator__keypad__operand'
   );
   buttons[10].textContent = '9';
   buttons[11].classList.add(
     'container__calculator__display__calculator__keypad__operator'
   );
   buttons[11].textContent = '×';
+  buttons[11].value = 'multiply';
   buttons[12].classList.add(
-    'container__calculator__display__calculator__keypad__digit'
+    'container__calculator__display__calculator__keypad__operand'
   );
   buttons[12].textContent = '4';
   buttons[13].classList.add(
-    'container__calculator__display__calculator__keypad__digit'
+    'container__calculator__display__calculator__keypad__operand'
   );
   buttons[13].textContent = '5';
   buttons[14].classList.add(
-    'container__calculator__display__calculator__keypad__digit'
+    'container__calculator__display__calculator__keypad__operand'
   );
   buttons[14].textContent = '6';
   buttons[15].classList.add(
     'container__calculator__display__calculator__keypad__operator'
   );
   buttons[15].textContent = '−';
+  buttons[15].value = 'subtract';
   buttons[16].classList.add(
-    'container__calculator__display__calculator__keypad__digit'
+    'container__calculator__display__calculator__keypad__operand'
   );
   buttons[16].textContent = '1';
   buttons[17].classList.add(
-    'container__calculator__display__calculator__keypad__digit'
+    'container__calculator__display__calculator__keypad__operand'
   );
   buttons[17].textContent = '2';
   buttons[18].classList.add(
-    'container__calculator__display__calculator__keypad__digit'
+    'container__calculator__display__calculator__keypad__operand'
   );
   buttons[18].textContent = '3';
   buttons[19].classList.add(
     'container__calculator__display__calculator__keypad__operator'
   );
   buttons[19].textContent = '+';
+  buttons[19].value = 'add';
   buttons[20].classList.add(
     'container__calculator__display__calculator__keypad__negative'
   );
   buttons[20].textContent = '⁺ / -';
   buttons[21].classList.add(
-    'container__calculator__display__calculator__keypad__digit'
+    'container__calculator__display__calculator__keypad__operand'
   );
   buttons[21].textContent = '0';
   buttons[22].classList.add(
@@ -190,7 +198,7 @@ function cKeys() {
   );
   buttons[22].textContent = '.';
   buttons[23].classList.add(
-    'container__calculator__display__calculator__keypad__result'
+    'container__calculator__display__calculator__keypad__equal'
   );
   buttons[23].textContent = '=';
 }
@@ -241,4 +249,5 @@ cCalculatorDisplay();
 cScreen();
 cKeypad();
 cKeys();
+
 //

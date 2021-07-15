@@ -29,11 +29,15 @@ const operate = (a, input, b = 0) => {
   return result[input](a, b);
 };
 
+const xoperate = (b, input) => {
+  const result = operators.find((operator) => operator[input]);
+  return result[input](b);
+};
 // populate display screen with key press
 
-const digits = [
+const operands = [
   ...document.querySelectorAll(
-    '.container__calculator__display__calculator__keypad__digit'
+    '.container__calculator__display__calculator__keypad__operand'
   ),
 ];
 const operator = [
@@ -50,29 +54,47 @@ const operation = document.querySelector(
 
 let workingResult = '';
 let displayResult = '';
+let operandA = '0';
+let operandB = '';
+let currentOperator = '';
+let nextOperand;
+let done;
 
-digits.forEach((digit) => {
-  digit.addEventListener('click', resultDisplay);
+operands.forEach((operand) => {
+  operand.addEventListener('click', resultDisplay);
 });
 
 function resultDisplay() {
+  if (nextOperand === true) {
+    result.textContent = '';
+  } else if (done === true) {
+    result.textContent = '';
+    operation.textContent = '';
+  }
   if (result.textContent.length <= 16) {
-    workingResult = result.textContent.replace(/[^\d]/g, '');
+    workingResult = result.textContent.replace(/([^\d.])/g, '');
     displayResult = +(workingResult += this.textContent);
     result.textContent = displayResult.toLocaleString();
   }
+  operandB = result.textContent.replace(/([^\d.])/g, '');
+  nextOperand = false;
+  done = false;
 }
 operator.forEach((oper) => {
   oper.addEventListener('click', operationDisplay);
 });
 
 function operationDisplay() {
-  if (result.textContent.length === 0 || (result.textContent = 0)) {
+  if (result.textContent === '0') {
     operation.textContent = `${0} ${this.textContent} `;
+  } else {
+    operation.textContent = `${displayResult.toLocaleString()} ${
+      this.textContent
+    }`;
+    operandA = result.textContent.replace(/([^\d.])/g, '');
+    currentOperator = this;
+    nextOperand = true;
   }
-  operation.textContent = `${displayResult.toLocaleString()} ${
-    this.textContent
-  }`;
 }
 
 const clearE = document.querySelector(
@@ -82,4 +104,32 @@ const clearE = document.querySelector(
 clearE.addEventListener('click', () => {
   result.textContent = '';
   operation.textContent = '';
+});
+
+const equal = document.querySelector(
+  '.container__calculator__display__calculator__keypad__equal'
+);
+
+equal.addEventListener('click', () => {
+  let operationResult = operate(+operandA, currentOperator.value, +operandB);
+  console.log(operationResult);
+  if (operationResult.toString().length > 16) {
+    result.textContent = operationResult.toExponential();
+  } else {
+    result.textContent = operationResult.toLocaleString();
+  }
+  operation.textContent = `${operandA} ${currentOperator.textContent} ${operandB} =`;
+  done = true;
+});
+
+const xoperators = [
+  ...document.querySelectorAll(
+    '.container__calculator__display__calculator__keypad__xoperator'
+  ),
+];
+
+xoperators.forEach((xoperator) => {
+  xoperator.addEventListener('click', () => {
+    console.log(this.value);
+  });
 });
