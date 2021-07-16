@@ -69,15 +69,15 @@ function cScreen() {
   const screen = document.querySelector(
     '.container__calculator__display__calculator__screen'
   );
-  const operation = document.createElement('p');
-  const result = document.createElement('h1');
-  operation.className =
-    'container__calculator__display__calculator__screen__operation';
-  result.className =
-    'container__calculator__display__calculator__screen__result';
-  result.textContent = '0';
-  screen.appendChild(operation);
-  screen.appendChild(result);
+  const secondaryScreen = document.createElement('p');
+  const mainScreen = document.createElement('h1');
+  secondaryScreen.className =
+    'container__calculator__display__calculator__screen__secondary';
+  mainScreen.className =
+    'container__calculator__display__calculator__screen__main';
+  mainScreen.textContent = '0';
+  screen.appendChild(secondaryScreen);
+  screen.appendChild(mainScreen);
 }
 
 function cKeypad() {

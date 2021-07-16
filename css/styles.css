@@ -87,13 +87,13 @@ body {
   align-items: flex-end;
   height: 40%;
 }
-.container__calculator__display__calculator__screen__operation {
-  color: gray;
-}
-.container__calculator__display__calculator__screen__result {
+.container__calculator__display__calculator__screen__main {
   font-size: 2.5rem;
   margin: 0;
   padding: 0;
+}
+.container__calculator__display__calculator__screen__secondary {
+  color: gray;
 }
 .container__calculator__display__calculator__keypad {
   display: grid;
