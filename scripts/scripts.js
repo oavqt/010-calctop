@@ -56,6 +56,7 @@ let workingResult = '';
 let displayResult = '';
 let operandA = '';
 let operandB = '';
+let operandTemp = '';
 let currentOperator = '';
 let nextOperand;
 let done;
@@ -72,11 +73,12 @@ function resultDisplay() {
     operation.textContent = '';
   }
   if (result.textContent.length <= 16) {
-    workingResult = result.textContent.replace(/([^\d.])/g, '');
+    workingResult = result.textContent.replace(/([^e\d+.-])/g, '');
     displayResult = +(workingResult += this.textContent);
     result.textContent = displayResult.toLocaleString();
   }
-  operandB = result.textContent.replace(/([^\d.])/g, '');
+  operandB = result.textContent.replace(/([^e\d+.-])/g, '');
+  operandTemp = result.textContent.replace(/([^e\d+.-])/g, '');
   nextOperand = false;
   done = false;
 }
@@ -86,16 +88,18 @@ operator.forEach((oper) => {
 });
 
 function operationDisplay() {
-  operandA = result.textContent.replace(/([^\d.])/g, '');
+  operandTemp = result.textContent.replace(/([^e\d+.-])/g, '');
+  if (operandA !== '' && operandB !== '') {
+    calloperate();
+  }
+  operandA = operandTemp;
   if (result.textContent === '0') {
     operation.textContent = `${0} ${this.textContent} `;
   } else {
-    operation.textContent = `${operandA} ${this.textContent}`;
+    operation.textContent = `${operandTemp} ${this.textContent}`;
   }
   currentOperator = this;
   nextOperand = true;
-
-  if (operation.textContent ===)
 }
 
 const clearE = document.querySelector(
@@ -109,7 +113,7 @@ const backspace = document.querySelector(
 );
 
 clearE.addEventListener('click', () => {
-  result.textContent = '';
+  result.textContent = '0';
   operation.textContent = '';
   operandB = '';
   operandA = '';
@@ -120,9 +124,10 @@ clear.addEventListener('click', () => {
 });
 backspace.addEventListener('click', () => {
   result.textContent = (+result.textContent
-    .replace(/([^\d.])/g, '')
+    .replace(/([^e\d+.-])/g, '')
     .slice(0, -1)).toLocaleString();
-  operandB = result.textContent.replace(/([^\d.])/g, '');
+  operandB = result.textContent.replace(/([^e\d+.-])/g, '');
+  operandTemp = result.textContent.replace(/([^e\d+.-])/g, '');
 });
 
 const equal = document.querySelector(
@@ -132,18 +137,36 @@ const equal = document.querySelector(
 equal.addEventListener('click', calloperate);
 
 function calloperate() {
+  let operationResult;
   if (currentOperator === '') {
     operation.textContent = `${operandB} =`;
   } else {
-    let operationResult = operate(+operandA, currentOperator.value, +operandB);
-    if (operationResult.toString().length > 16) {
+    operationResult = operate(+operandA, currentOperator.value, +operandB);
+    if (
+      operationResult.toString().length > 16 ||
+      /([e+.])/g.test(operationResult) === true
+    ) {
       result.textContent = operationResult.toExponential();
     } else {
       result.textContent = operationResult.toLocaleString();
     }
     operation.textContent = `${operandA} ${currentOperator.textContent} ${operandB} =`;
-    operandA = result.textContent.replace(/([^\d.])/g, '');
+    if (operandA === '') {
+      operationResult = operate(+operandTemp, currentOperator.value, +operandB);
+      if (
+        operationResult.toString().length > 16 ||
+        /([e+.])/g.test(operationResult) === true
+      ) {
+        result.textContent = operationResult.toExponential();
+      } else {
+        result.textContent = operationResult.toLocaleString();
+      }
+      operation.textContent = `${operandTemp} ${currentOperator.textContent} ${operandB} =`;
+      operandTemp = result.textContent.replace(/([^e\d+.-])/g, '');
+    }
   }
+  operandA = '';
+  operandTemp = result.textContent.replace(/([^e\d+.-])/g, '');
   done = true;
 }
 const xoperators = [
@@ -157,6 +180,6 @@ xoperators.forEach((xoperator) => {
 });
 
 function test() {
-  result.textContent = xoperate(+operandB, this.value);
-  operandB = (+result.textContent).toLocaleString();
+  result.textContent = xoperate(+operandTemp, this.value);
+  operandTemp = (+result.textContent).toLocaleString();
 }
