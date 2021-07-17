@@ -7,7 +7,7 @@ const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
 const divide = (a, b) => a / b;
 const fraction = (a) => 1 / a;
-const percentage = (a, b) => (b / 100) * a;
+const percent = (a, b) => (b / 100) * a;
 const square = (a) => a ** 2;
 const root = (a) => Math.sqrt(a);
 
@@ -17,7 +17,7 @@ const operators = [
   { multiply },
   { divide },
   { fraction },
-  { percentage },
+  { percent },
   { square },
   { root },
 ];
@@ -59,6 +59,8 @@ let currentOperator = '';
 let noCommaResult = '';
 let displayResult = '';
 let removeToLocaleString = /([^e\d+.-])/g;
+let decimalTemp;
+let decimalCheck;
 let nextOperand;
 let disableOperator;
 let doneOperateOnX;
@@ -69,9 +71,12 @@ operands.forEach((operand) => {
 });
 
 function displayOperand() {
-  if (nextOperand === true) {
+  if (nextOperand === true && decimalCheck === false) {
     mainScreen.textContent = '';
-  } else if (done === true || doneOperateOnX === true) {
+  } else if (
+    (done === true || doneOperateOnX === true) &&
+    decimalCheck === false
+  ) {
     clear();
   }
   if (mainScreen.textContent.length <= 16) {
@@ -80,6 +85,11 @@ function displayOperand() {
     mainScreen.textContent = displayResult.toLocaleString();
   }
   operandB = mainScreen.textContent.replace(removeToLocaleString, '');
+  if (decimalCheck === true) {
+    if (operandA === '') {
+      operandB = decimalTemp;
+    }
+  }
   operandTemp = mainScreen.textContent.replace(removeToLocaleString, '');
   nextOperand = false;
   disableOperator = false;
@@ -136,6 +146,7 @@ function executeOperate() {
   }
   operandA = '';
   operandTemp = mainScreen.textContent.replace(removeToLocaleString, '');
+  decimalCheck = false;
   done = true;
 }
 
@@ -230,6 +241,7 @@ function executeOperateOnX() {
     mainScreen.textContent = operandTemp.toLocaleString();
     displayOperateOnX(xTemp, this.value);
   }
+  decimalCheck = false;
   doneOperateOnX = true;
 }
 
@@ -241,6 +253,23 @@ function displayOperateOnX(temp, value) {
     secondaryScreen.textContent = `√(${temp})`;
   } else {
     secondaryScreen.textContent = `¹/(${temp})`;
+  }
+}
+const percentage = document.querySelector(
+  '.container__calculator__display__calculator__keypad__percentage'
+);
+
+percentage.addEventListener('click', takePercentage);
+
+function takePercentage() {
+  if (operandA === '' && secondaryScreen.textContent === '') {
+    mainScreen.textContent = '0';
+  } else if (operandA === '') {
+    mainScreen.textContent = operate(+operandTemp, 'percent', +operandTemp);
+    operandB = mainScreen.textContent.replace(removeToLocaleString, '');
+  } else {
+    mainScreen.textContent = operate(+operandA, 'percent', +operandB);
+    operandB = mainScreen.textContent.replace(removeToLocaleString, '');
   }
 }
 
@@ -257,5 +286,22 @@ function addRemoveNegative() {
     mainScreen.textContent = `-${mainScreen.textContent.slice(0)}`;
     operandB = mainScreen.textContent.replace(removeToLocaleString, '');
     operandTemp = mainScreen.textContent.replace(removeToLocaleString, '');
+  }
+}
+
+const decimal = document.querySelector(
+  '.container__calculator__display__calculator__keypad__decimal'
+);
+
+decimal.addEventListener('click', addDecimal);
+
+function addDecimal() {
+  if ((done === true || doneOperateOnX === true) && decimalCheck === false) {
+    decimalTemp = operandB;
+    mainScreen.textContent = '0.';
+    decimalCheck = true;
+    done = false;
+  } else if (/([.])/g.test(mainScreen.textContent) === false) {
+    mainScreen.textContent += '.';
   }
 }
