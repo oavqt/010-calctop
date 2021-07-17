@@ -61,6 +61,7 @@ let displayResult = '';
 let removeToLocaleString = /([^e\d+.-])/g;
 let nextOperand;
 let disableOperator;
+let doneOperateOnX;
 let done;
 
 operands.forEach((operand) => {
@@ -70,7 +71,7 @@ operands.forEach((operand) => {
 function displayOperand() {
   if (nextOperand === true) {
     mainScreen.textContent = '';
-  } else if (done === true) {
+  } else if (done === true || doneOperateOnX === true) {
     clear();
   }
   if (mainScreen.textContent.length <= 16) {
@@ -83,6 +84,7 @@ function displayOperand() {
   nextOperand = false;
   disableOperator = false;
   done = false;
+  doneOperateOnX = false;
 }
 
 operator.forEach((operator) => {
@@ -139,29 +141,23 @@ function executeOperate() {
 
 function operateEquals() {
   operationResult = operate(+operandA, currentOperator.value, +operandB);
-  if (
-    operationResult.toString().length > 16 ||
-    /([e+.])/g.test(operationResult) === true
-  ) {
-    mainScreen.textContent = operationResult;
-  } else {
-    mainScreen.textContent = operationResult.toLocaleString();
-  }
+  checkForExpLength(operationResult);
   secondaryScreen.textContent = `${operandA} ${currentOperator.textContent} ${operandB} =`;
 }
 
 function operateOnOperator() {
   operationResult = operate(+operandTemp, currentOperator.value, +operandB);
-  if (
-    operationResult.toString().length > 16 ||
-    /([e+.-])/g.test(operationResult) === true
-  ) {
-    mainScreen.textContent = operationResult;
-  } else {
-    mainScreen.textContent = operationResult.toLocaleString();
-  }
+  checkForExpLength(operationResult);
   secondaryScreen.textContent = `${operandTemp} ${currentOperator.textContent} ${operandB} =`;
   operandTemp = mainScreen.textContent.replace(removeToLocaleString, '');
+}
+
+function checkForExpLength(temp) {
+  if (temp.toString().length > 16 || /([e+.-])/g.test(temp) === true) {
+    mainScreen.textContent = temp;
+  } else {
+    mainScreen.textContent = temp.toLocaleString();
+  }
 }
 
 const clearAll = document.querySelector(
@@ -194,8 +190,13 @@ function clear() {
 }
 
 function backspace() {
-  if (done === true) {
+  if (done === true || doneOperateOnX === true) {
     secondaryScreen.textContent = '';
+  } else if (
+    mainScreen.textContent.length <= 2 &&
+    /([-])/g.test(mainScreen.textContent) === true
+  ) {
+    mainScreen.textContent = '0';
   } else {
     mainScreen.textContent = (+mainScreen.textContent
       .replace(removeToLocaleString, '')
@@ -216,6 +217,7 @@ xOperators.forEach((xOperator) => {
 });
 
 function executeOperateOnX() {
+  let xTemp = operandTemp;
   operandTemp = operateOnX(+operandTemp, this.value);
   operandB = operandTemp;
   if (
@@ -223,8 +225,22 @@ function executeOperateOnX() {
     /([e+.-])/g.test(operandTemp) === true
   ) {
     mainScreen.textContent = operandTemp;
+    displayOperateOnX(xTemp, this.value);
   } else {
     mainScreen.textContent = operandTemp.toLocaleString();
+    displayOperateOnX(xTemp, this.value);
+  }
+  doneOperateOnX = true;
+}
+
+function displayOperateOnX(temp, value) {
+  let type = value;
+  if (type === 'square') {
+    secondaryScreen.textContent = `(${temp})²`;
+  } else if (type === 'root') {
+    secondaryScreen.textContent = `√(${temp})`;
+  } else {
+    secondaryScreen.textContent = `¹/(${temp})`;
   }
 }
 
