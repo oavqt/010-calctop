@@ -115,17 +115,17 @@ function cKeys() {
   );
   buttons[3].textContent = '⤺';
   buttons[4].classList.add(
-    'container__calculator__display__calculator__keypad__xoperator'
+    'container__calculator__display__calculator__keypad__x_operator'
   );
   buttons[4].textContent = '¹ / x';
   buttons[4].value = 'fraction';
   buttons[5].classList.add(
-    'container__calculator__display__calculator__keypad__xoperator'
+    'container__calculator__display__calculator__keypad__x_operator'
   );
   buttons[5].textContent = 'x ²';
   buttons[5].value = 'square';
   buttons[6].classList.add(
-    'container__calculator__display__calculator__keypad__xoperator'
+    'container__calculator__display__calculator__keypad__x_operator'
   );
   buttons[6].textContent = '² √ x';
   buttons[6].value = 'root';

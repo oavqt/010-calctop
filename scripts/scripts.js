@@ -29,7 +29,7 @@ const operate = (a, input, b = 0) => {
   return result[input](a, b);
 };
 
-const xoperate = (b, input) => {
+const operateOnX = (b, input) => {
   const result = operators.find((operator) => operator[input]);
   return result[input](b);
 };
@@ -71,12 +71,7 @@ function displayOperand() {
   if (nextOperand === true) {
     mainScreen.textContent = '';
   } else if (done === true) {
-    mainScreen.textContent = '';
-    secondaryScreen.textContent = '';
-    operandB = '';
-    operandA = '';
-    operandTemp = '';
-    currentOperator = '';
+    clear();
   }
   if (mainScreen.textContent.length <= 16) {
     noCommaResult = mainScreen.textContent.replace(removeToLocaleString, '');
@@ -90,8 +85,8 @@ function displayOperand() {
   done = false;
 }
 
-operator.forEach((oper) => {
-  oper.addEventListener('click', displayOperator);
+operator.forEach((operator) => {
+  operator.addEventListener('click', displayOperator);
 });
 
 function displayOperator() {
@@ -105,41 +100,13 @@ function displayOperator() {
   }
   operandA = operandTemp;
   if (mainScreen.textContent === '0') {
-    secondaryScreen.textContent = `${0} ${this.textContent} `;
+    secondaryScreen.textContent = `${0} ${this.textContent}`;
   } else {
     secondaryScreen.textContent = `${operandTemp} ${this.textContent}`;
   }
   currentOperator = this;
   nextOperand = true;
 }
-
-const clearE = document.querySelector(
-  '.container__calculator__display__calculator__keypad__ce'
-);
-const clear = document.querySelector(
-  '.container__calculator__display__calculator__keypad__c'
-);
-const backspace = document.querySelector(
-  '.container__calculator__display__calculator__keypad__backspace'
-);
-
-clearE.addEventListener('click', () => {
-  mainScreen.textContent = '0';
-  secondaryScreen.textContent = '';
-  operandB = '';
-  operandA = '';
-  currentOperator = '';
-});
-clear.addEventListener('click', () => {
-  mainScreen.textContent = '0';
-});
-backspace.addEventListener('click', () => {
-  mainScreen.textContent = (+mainScreen.textContent
-    .replace(removeToLocaleString, '')
-    .slice(0, -1)).toLocaleString();
-  operandB = mainScreen.textContent.replace(removeToLocaleString, '');
-  operandTemp = mainScreen.textContent.replace(removeToLocaleString, '');
-});
 
 const equal = document.querySelector(
   '.container__calculator__display__calculator__keypad__equal'
@@ -148,6 +115,13 @@ const equal = document.querySelector(
 equal.addEventListener('click', executeOperate);
 
 function executeOperate() {
+  if (
+    secondaryScreen.textContent ===
+      `${operandTemp} ${currentOperator.textContent}  =` &&
+    operandB === ''
+  ) {
+    operandB = operandTemp;
+  }
   if (currentOperator === '') {
     secondaryScreen.textContent = `${mainScreen.textContent.replace(
       removeToLocaleString,
@@ -180,7 +154,7 @@ function operateOnOperator() {
   operationResult = operate(+operandTemp, currentOperator.value, +operandB);
   if (
     operationResult.toString().length > 16 ||
-    /([e+.])/g.test(operationResult) === true
+    /([e+.-])/g.test(operationResult) === true
   ) {
     mainScreen.textContent = operationResult;
   } else {
@@ -190,17 +164,82 @@ function operateOnOperator() {
   operandTemp = mainScreen.textContent.replace(removeToLocaleString, '');
 }
 
-const xoperators = [
+const clearAll = document.querySelector(
+  '.container__calculator__display__calculator__keypad__c'
+);
+
+const clearEntry = document.querySelector(
+  '.container__calculator__display__calculator__keypad__ce'
+);
+
+const clearLastInput = document.querySelector(
+  '.container__calculator__display__calculator__keypad__backspace'
+);
+
+clearAll.addEventListener('click', clear);
+
+clearEntry.addEventListener('click', () => {
+  mainScreen.textContent = '0';
+});
+
+clearLastInput.addEventListener('click', backspace);
+
+function clear() {
+  mainScreen.textContent = '0';
+  secondaryScreen.textContent = '';
+  operandB = '';
+  operandA = '';
+  currentOperator = '';
+  operandTemp = '';
+}
+
+function backspace() {
+  if (done === true) {
+    secondaryScreen.textContent = '';
+  } else {
+    mainScreen.textContent = (+mainScreen.textContent
+      .replace(removeToLocaleString, '')
+      .slice(0, -1)).toLocaleString();
+    operandB = mainScreen.textContent.replace(removeToLocaleString, '');
+    operandTemp = mainScreen.textContent.replace(removeToLocaleString, '');
+  }
+}
+
+const xOperators = [
   ...document.querySelectorAll(
-    '.container__calculator__display__calculator__keypad__xoperator'
+    '.container__calculator__display__calculator__keypad__x_operator'
   ),
 ];
 
-xoperators.forEach((xoperator) => {
-  xoperator.addEventListener('click', test);
+xOperators.forEach((xOperator) => {
+  xOperator.addEventListener('click', executeOperateOnX);
 });
 
-function test() {
-  mainScreen.textContent = xoperate(+operandTemp, this.value);
-  operandTemp = (+mainScreen.textContent).toLocaleString();
+function executeOperateOnX() {
+  operandTemp = operateOnX(+operandTemp, this.value);
+  operandB = operandTemp;
+  if (
+    operandTemp.toString().length > 16 ||
+    /([e+.-])/g.test(operandTemp) === true
+  ) {
+    mainScreen.textContent = operandTemp;
+  } else {
+    mainScreen.textContent = operandTemp.toLocaleString();
+  }
+}
+
+const negative = document.querySelector(
+  '.container__calculator__display__calculator__keypad__negative'
+);
+
+negative.addEventListener('click', addRemoveNegative);
+
+function addRemoveNegative() {
+  if (/([-])/g.test(mainScreen.textContent) === true) {
+    mainScreen.textContent = mainScreen.textContent.replace(/([-])/g, '');
+  } else {
+    mainScreen.textContent = `-${mainScreen.textContent.slice(0)}`;
+    operandB = mainScreen.textContent.replace(removeToLocaleString, '');
+    operandTemp = mainScreen.textContent.replace(removeToLocaleString, '');
+  }
 }
