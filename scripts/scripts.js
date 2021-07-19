@@ -33,18 +33,9 @@ const operateOnX = (b, input) => {
   const result = operators.find((operator) => operator[input]);
   return result[input](b);
 };
+
 // populate display screen with key press
 
-const operands = [
-  ...document.querySelectorAll(
-    '.container__calculator__display__calculator__keypad__operand'
-  ),
-];
-const operator = [
-  ...document.querySelectorAll(
-    '.container__calculator__display__calculator__keypad__operator'
-  ),
-];
 const mainScreen = document.querySelector(
   '.container__calculator__display__calculator__screen__main'
 );
@@ -66,9 +57,11 @@ let disableOperator;
 let doneOperateOnX;
 let done;
 
-operands.forEach((operand) => {
-  operand.addEventListener('click', displayOperand);
-});
+const operands = [
+  ...document.querySelectorAll(
+    '.container__calculator__display__calculator__keypad__operand'
+  ),
+];
 
 function displayOperand() {
   if (nextOperand === true && decimalCheck === false) {
@@ -97,9 +90,15 @@ function displayOperand() {
   doneOperateOnX = false;
 }
 
-operator.forEach((operator) => {
-  operator.addEventListener('click', displayOperator);
+operands.forEach((operand) => {
+  operand.addEventListener('click', displayOperand);
 });
+
+const operator = [
+  ...document.querySelectorAll(
+    '.container__calculator__display__calculator__keypad__operator'
+  ),
+];
 
 function displayOperator() {
   operandTemp = mainScreen.textContent.replace(removeToLocaleString, '');
@@ -120,11 +119,34 @@ function displayOperator() {
   nextOperand = true;
 }
 
+operator.forEach((operator) => {
+  operator.addEventListener('click', displayOperator);
+});
+
 const equal = document.querySelector(
   '.container__calculator__display__calculator__keypad__equal'
 );
 
-equal.addEventListener('click', executeOperate);
+function checkForExpLength(temp) {
+  if (temp.toString().length > 16 || /([e+.-])/g.test(temp) === true) {
+    mainScreen.textContent = temp;
+  } else {
+    mainScreen.textContent = temp.toLocaleString();
+  }
+}
+
+function operateEquals() {
+  operationResult = operate(+operandA, currentOperator.value, +operandB);
+  checkForExpLength(operationResult);
+  secondaryScreen.textContent = `${operandA} ${currentOperator.textContent} ${operandB} =`;
+}
+
+function operateOnOperator() {
+  operationResult = operate(+operandTemp, currentOperator.value, +operandB);
+  checkForExpLength(operationResult);
+  secondaryScreen.textContent = `${operandTemp} ${currentOperator.textContent} ${operandB} =`;
+  operandTemp = mainScreen.textContent.replace(removeToLocaleString, '');
+}
 
 function executeOperate() {
   if (
@@ -150,46 +172,11 @@ function executeOperate() {
   done = true;
 }
 
-function operateEquals() {
-  operationResult = operate(+operandA, currentOperator.value, +operandB);
-  checkForExpLength(operationResult);
-  secondaryScreen.textContent = `${operandA} ${currentOperator.textContent} ${operandB} =`;
-}
-
-function operateOnOperator() {
-  operationResult = operate(+operandTemp, currentOperator.value, +operandB);
-  checkForExpLength(operationResult);
-  secondaryScreen.textContent = `${operandTemp} ${currentOperator.textContent} ${operandB} =`;
-  operandTemp = mainScreen.textContent.replace(removeToLocaleString, '');
-}
-
-function checkForExpLength(temp) {
-  if (temp.toString().length > 16 || /([e+.-])/g.test(temp) === true) {
-    mainScreen.textContent = temp;
-  } else {
-    mainScreen.textContent = temp.toLocaleString();
-  }
-}
+equal.addEventListener('click', executeOperate);
 
 const clearAll = document.querySelector(
   '.container__calculator__display__calculator__keypad__c'
 );
-
-const clearEntry = document.querySelector(
-  '.container__calculator__display__calculator__keypad__ce'
-);
-
-const clearLastInput = document.querySelector(
-  '.container__calculator__display__calculator__keypad__backspace'
-);
-
-clearAll.addEventListener('click', clear);
-
-clearEntry.addEventListener('click', () => {
-  mainScreen.textContent = '0';
-});
-
-clearLastInput.addEventListener('click', backspace);
 
 function clear() {
   mainScreen.textContent = '0';
@@ -199,6 +186,20 @@ function clear() {
   currentOperator = '';
   operandTemp = '';
 }
+
+clearAll.addEventListener('click', clear);
+
+const clearEntry = document.querySelector(
+  '.container__calculator__display__calculator__keypad__ce'
+);
+
+clearEntry.addEventListener('click', () => {
+  mainScreen.textContent = '0';
+});
+
+const clearLastInput = document.querySelector(
+  '.container__calculator__display__calculator__keypad__backspace'
+);
 
 function backspace() {
   if (done === true || doneOperateOnX === true) {
@@ -217,15 +218,13 @@ function backspace() {
   }
 }
 
+clearLastInput.addEventListener('click', backspace);
+
 const xOperators = [
   ...document.querySelectorAll(
     '.container__calculator__display__calculator__keypad__x_operator'
   ),
 ];
-
-xOperators.forEach((xOperator) => {
-  xOperator.addEventListener('click', executeOperateOnX);
-});
 
 function executeOperateOnX() {
   let xTemp = operandTemp;
@@ -255,11 +254,14 @@ function displayOperateOnX(temp, value) {
     secondaryScreen.textContent = `¹/(${temp})`;
   }
 }
+
+xOperators.forEach((xOperator) => {
+  xOperator.addEventListener('click', executeOperateOnX);
+});
+
 const percentage = document.querySelector(
   '.container__calculator__display__calculator__keypad__percentage'
 );
-
-percentage.addEventListener('click', takePercentage);
 
 function takePercentage() {
   if (operandA === '' && secondaryScreen.textContent === '') {
@@ -273,11 +275,11 @@ function takePercentage() {
   }
 }
 
+percentage.addEventListener('click', takePercentage);
+
 const negative = document.querySelector(
   '.container__calculator__display__calculator__keypad__negative'
 );
-
-negative.addEventListener('click', addRemoveNegative);
 
 function addRemoveNegative() {
   if (/([-])/g.test(mainScreen.textContent) === true) {
@@ -289,11 +291,11 @@ function addRemoveNegative() {
   }
 }
 
+negative.addEventListener('click', addRemoveNegative);
+
 const decimal = document.querySelector(
   '.container__calculator__display__calculator__keypad__decimal'
 );
-
-decimal.addEventListener('click', addDecimal);
 
 function addDecimal() {
   if ((done === true || doneOperateOnX === true) && decimalCheck === false) {
@@ -305,3 +307,57 @@ function addDecimal() {
     mainScreen.textContent += '.';
   }
 }
+
+decimal.addEventListener('click', addDecimal);
+
+// simple chalkboard
+
+const context = document.querySelector(
+  '.container__calculator__display__chalkboard__canvas__context'
+);
+
+const canvas = document.querySelector(
+  '.container__calculator__display__chalkboard__canvas'
+);
+
+let cbx = context.getContext('2d');
+context.width = canvas.clientWidth;
+context.height = canvas.clientHeight;
+cbx.strokeStyle = '#f6f4f1';
+cbx.lineJoin = 'round';
+cbx.lineWidth = 3;
+
+const position = (coords) => [
+  coords.pageX - context.offsetLeft,
+  coords.pageY - context.offsetTop,
+];
+
+const startDrawing = (coords) => {
+  cbx.beginPath();
+  cbx.moveTo.apply(cbx, coords);
+  cbx.stroke();
+};
+
+const keepDrawing = (coords) => {
+  cbx.lineTo.apply(cbx, coords);
+  cbx.stroke();
+};
+
+const mouseClick = (e) => startDrawing(position(e));
+
+const mouseHold = (e) => keepDrawing(position(e));
+
+const draw = (action, mousemove, mouseup) => (e) => {
+  if (action == 'add') {
+    mouseClick(e);
+  }
+  e.preventDefault();
+  canvas[action + 'EventListener'](mousemove, mouseHold);
+  canvas[action + 'EventListener'](mouseup, cbx.closePath);
+};
+
+canvas['addEventListener']('mousedown', draw('add', 'mousemove', 'mouseup'));
+
+canvas.addEventListener('mouseup', draw('remove', 'mousemove', 'mouseup'));
+
+//

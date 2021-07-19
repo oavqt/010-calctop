@@ -46,11 +46,11 @@ function cMaxMinClose() {
 function cCalculatorContainer() {
   const container = document.querySelector('.container__calculator__display');
   const display = document.createElement('div');
-  const history = document.createElement('div');
+  const chalkboard = document.createElement('div');
   display.className = 'container__calculator__display__calculator';
-  history.className = 'container__calculator__display__history';
+  chalkboard.className = 'container__calculator__display__chalkboard';
   container.appendChild(display);
-  container.appendChild(history);
+  container.appendChild(chalkboard);
 }
 
 function cCalculatorDisplay() {
@@ -203,6 +203,46 @@ function cKeys() {
   buttons[23].textContent = '=';
 }
 
+function cChalkboard() {
+  const chalkboard = document.querySelector(
+    '.container__calculator__display__chalkboard'
+  );
+  const header = document.createElement('div');
+  const canvas = document.createElement('div');
+  const footer = document.createElement('button');
+  header.className = 'container__calculator__display__chalkboard__title';
+  canvas.className = 'container__calculator__display__chalkboard__canvas';
+  footer.className = 'container__calculator__display__chalkboard__clear';
+  footer.textContent = 'Clear';
+  chalkboard.appendChild(header);
+  chalkboard.appendChild(canvas);
+  chalkboard.appendChild(footer);
+}
+
+function cCanvas() {
+  const canvas = document.querySelector(
+    '.container__calculator__display__chalkboard__canvas'
+  );
+  const context = document.createElement('canvas');
+  context.className =
+    'container__calculator__display__chalkboard__canvas__context';
+  canvas.appendChild(context);
+}
+
+function cChalkboardHeader() {
+  const title = document.querySelector(
+    '.container__calculator__display__chalkboard__title'
+  );
+  const expand = document.createElement('button');
+  const name = document.createElement('h1');
+  expand.className =
+    'container__calculator__display__chalkboard__title__expand';
+  name.className = 'container__calculator__display__chalkboard__title__name';
+  name.textContent = 'Chalkboard';
+  title.appendChild(expand);
+  title.appendChild(name);
+}
+
 function cProductInformation() {
   const information = document.querySelector('.container__information');
   const title = document.createElement('h1');
@@ -249,5 +289,8 @@ cCalculatorDisplay();
 cScreen();
 cKeypad();
 cKeys();
+cChalkboard();
+cChalkboardHeader();
+cCanvas();
 
 //
