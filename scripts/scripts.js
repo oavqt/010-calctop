@@ -22,8 +22,6 @@ const operators = [
   { root },
 ];
 
-// operator call function
-
 const operate = (a, input, b = 0) => {
   const result = operators.find((operator) => operator[input]);
   return result[input](a, b);
@@ -34,7 +32,7 @@ const operateOnX = (b, input) => {
   return result[input](b);
 };
 
-// populate display screen with key press
+// populate display screen with text from button press and store the values
 
 const mainScreen = document.querySelector(
   '.container__calculator__display__calculator__screen__main'
@@ -56,6 +54,8 @@ let nextOperand;
 let disableOperator;
 let doneOperateOnX;
 let done;
+let expanded;
+let eraserIsActive;
 
 const operands = [
   ...document.querySelectorAll(
@@ -63,7 +63,9 @@ const operands = [
   ),
 ];
 
-function displayOperand(keyPress) {
+function displayOperand(keypress) {
+  let currentElement = this;
+  if (!(keypress.value === undefined)) currentElement = keypress;
   if (nextOperand === true && decimalCheck === false) {
     mainScreen.textContent = '';
   } else if (
@@ -74,7 +76,8 @@ function displayOperand(keyPress) {
   }
   if (mainScreen.textContent.length <= 16) {
     noCommaResult = mainScreen.textContent.replace(removeToLocaleString, '');
-    displayResult = +(noCommaResult += this.textContent || keyPress);
+    displayResult = +(noCommaResult +=
+      this.textContent || currentElement.textContent);
     mainScreen.textContent = displayResult.toLocaleString();
   }
   operandB = mainScreen.textContent.replace(removeToLocaleString, '');
@@ -100,7 +103,11 @@ const operator = [
   ),
 ];
 
-function displayOperator() {
+// get, store and display the current operator value
+
+function displayOperator(keypress) {
+  let currentElement = this;
+  if (!(keypress.value === undefined)) currentElement = keypress;
   operandTemp = mainScreen.textContent.replace(removeToLocaleString, '');
   if (done === true) {
     operandB = '';
@@ -111,17 +118,19 @@ function displayOperator() {
   }
   operandA = operandTemp;
   if (mainScreen.textContent === '0') {
-    secondaryScreen.textContent = `${0} ${this.textContent}`;
+    secondaryScreen.textContent = `${0} ${currentElement.textContent}`;
   } else {
-    secondaryScreen.textContent = `${operandTemp} ${this.textContent}`;
+    secondaryScreen.textContent = `${operandTemp} ${currentElement.textContent}`;
   }
-  currentOperator = this;
+  currentOperator = currentElement;
   nextOperand = true;
 }
 
 operator.forEach((operator) => {
   operator.addEventListener('click', displayOperator);
 });
+
+// call operator functions on stored values and display the result
 
 const equal = document.querySelector(
   '.container__calculator__display__calculator__keypad__equal'
@@ -174,6 +183,8 @@ function executeOperate() {
 
 equal.addEventListener('click', executeOperate);
 
+// clear data functions
+
 const clearAll = document.querySelector(
   '.container__calculator__display__calculator__keypad__c'
 );
@@ -220,25 +231,29 @@ function backspace() {
 
 clearLastInput.addEventListener('click', backspace);
 
+// // call xoperator function on stored values and display the result
+
 const xOperators = [
   ...document.querySelectorAll(
     '.container__calculator__display__calculator__keypad__x_operator'
   ),
 ];
 
-function executeOperateOnX() {
+function executeOperateOnX(keypress) {
   let xTemp = operandTemp;
-  operandTemp = operateOnX(+operandTemp, this.value);
+  let currentElement = this;
+  if (!(keypress.value === undefined)) currentElement = keypress;
+  operandTemp = operateOnX(+operandTemp, currentElement.value);
   operandB = operandTemp;
   if (
     operandTemp.toString().length > 16 ||
     /([e+.-])/g.test(operandTemp) === true
   ) {
     mainScreen.textContent = operandTemp;
-    displayOperateOnX(xTemp, this.value);
+    displayOperateOnX(xTemp, currentElement.value);
   } else {
     mainScreen.textContent = operandTemp.toLocaleString();
-    displayOperateOnX(xTemp, this.value);
+    displayOperateOnX(xTemp, currentElement.value);
   }
   decimalCheck = false;
   doneOperateOnX = true;
@@ -259,6 +274,8 @@ xOperators.forEach((xOperator) => {
   xOperator.addEventListener('click', executeOperateOnX);
 });
 
+// get and display percentage of second value based on first
+
 const percentage = document.querySelector(
   '.container__calculator__display__calculator__keypad__percentage'
 );
@@ -277,6 +294,8 @@ function takePercentage() {
 
 percentage.addEventListener('click', takePercentage);
 
+// add negate to current number
+
 const negate = document.querySelector(
   '.container__calculator__display__calculator__keypad__negate'
 );
@@ -292,6 +311,8 @@ function addRemoveNegate() {
 }
 
 negate.addEventListener('click', addRemoveNegate);
+
+// add decimal to current number
 
 const decimal = document.querySelector(
   '.container__calculator__display__calculator__keypad__decimal'
@@ -311,6 +332,8 @@ function addDecimal() {
 decimal.addEventListener('click', addDecimal);
 
 // simple chalkboard
+
+// create canvas area
 
 const canvas = document.querySelector(
   '.container__calculator__display__chalkboard__canvas'
@@ -366,11 +389,11 @@ canvas['addEventListener']('mousedown', draw('add', 'mousemove', 'mouseup'));
 
 canvas.addEventListener('mouseup', draw('remove', 'mousemove', 'mouseup'));
 
+// button to expand canvas area
+
 const expand = document.querySelector(
   '.container__calculator__display__chalkboard__title__expand'
 );
-
-let expanded;
 
 function expandCanvas() {
   const calculator = document.querySelector(
@@ -404,6 +427,8 @@ function expandCanvas() {
 
 expand.addEventListener('click', expandCanvas);
 
+// clear, erase canvas button
+
 const clearCanvas = document.querySelector(
   '.container__calculator__display__chalkboard__footer__clear'
 );
@@ -415,8 +440,6 @@ clearCanvas.addEventListener('click', () => {
 const eraserCanvas = document.querySelector(
   '.container__calculator__display__chalkboard__footer__eraser'
 );
-
-let eraserIsActive;
 
 function eraserStyling() {
   if (!eraserIsActive) {
@@ -440,8 +463,43 @@ function eraserStyling() {
 
 eraserCanvas.addEventListener('click', eraserStyling);
 
-document.addEventListener('keypress', (e) => {
+// keyboard functionality
+
+document.addEventListener('keydown', (e) => {
   const keys = document.querySelector(`button[data-key='${e.key}']`);
-  // displayOperand(keys.textContent);
-  console.log(e.key);
+  switch (true) {
+    case /([\d])/g.test(keys.getAttribute('data-key')):
+      displayOperand(keys);
+      break;
+    case /([-+*/])/g.test(keys.getAttribute('data-key')):
+      displayOperator(keys);
+      break;
+    case /\b(Enter)\b/g.test(keys.getAttribute('data-key')):
+      console.log('yo');
+      executeOperate();
+      break;
+    case /([q@r])/g.test(keys.getAttribute('data-key')):
+      executeOperateOnX(keys);
+      break;
+    case /([%])/g.test(keys.getAttribute('data-key')):
+      takePercentage();
+      break;
+    case /\b(Escape)\b/g.test(keys.getAttribute('data-key')):
+      clear();
+      break;
+    case /\b(Delete)\b/g.test(keys.getAttribute('data-key')):
+      mainScreen.textContent = '0';
+      break;
+    case /\b(Backspace)\b/g.test(keys.getAttribute('data-key')):
+      backspace();
+      break;
+    case /\b(F9)\b/g.test(keys.getAttribute('data-key')):
+      addRemoveNegate();
+      break;
+    case /([.])/g.test(keys.getAttribute('data-key')):
+      addDecimal();
+      break;
+  }
 });
+
+//
