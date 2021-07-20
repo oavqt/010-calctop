@@ -312,20 +312,26 @@ decimal.addEventListener('click', addDecimal);
 
 // simple chalkboard
 
-const context = document.querySelector(
-  '.container__calculator__display__chalkboard__canvas__context'
-);
-
 const canvas = document.querySelector(
   '.container__calculator__display__chalkboard__canvas'
 );
 
+const context = document.querySelector(
+  '.container__calculator__display__chalkboard__canvas__context'
+);
+
 let cbx = context.getContext('2d');
-context.width = canvas.clientWidth;
-context.height = canvas.clientHeight;
-cbx.strokeStyle = '#f6f4f1';
-cbx.lineJoin = 'round';
-cbx.lineWidth = 3;
+
+function contextToCanvas() {
+  context.width = canvas.clientWidth;
+  context.height = canvas.clientHeight;
+  cbx.strokeStyle = '#f6f4f1';
+  cbx.lineJoin = 'round';
+  cbx.lineWidth = 1;
+  cbx.filter = 'blur(0.5px)';
+}
+
+contextToCanvas();
 
 const position = (coords) => [
   coords.pageX - context.offsetLeft,
@@ -359,5 +365,51 @@ const draw = (action, mousemove, mouseup) => (e) => {
 canvas['addEventListener']('mousedown', draw('add', 'mousemove', 'mouseup'));
 
 canvas.addEventListener('mouseup', draw('remove', 'mousemove', 'mouseup'));
+
+const clearCanvas = document.querySelector(
+  '.container__calculator__display__chalkboard__clear'
+);
+
+clearCanvas.addEventListener('click', () => {
+  cbx.clearRect(0, 0, context.width, context.height);
+});
+
+const expand = document.querySelector(
+  '.container__calculator__display__chalkboard__title__expand'
+);
+
+let expanded;
+
+function expandCanvas() {
+  const calculator = document.querySelector(
+    '.container__calculator__display__calculator'
+  );
+  const chalkboard = document.querySelector(
+    '.container__calculator__display__chalkboard'
+  );
+  if (!expanded) {
+    calculator.style.display = 'none';
+    expand.setAttribute(
+      'class',
+      'container__calculator__display__chalkboard__title__expand--active'
+    );
+    chalkboard.style.width = '100%';
+    canvas.style.width = '100%';
+    contextToCanvas();
+    expanded = true;
+  } else if (expanded) {
+    calculator.style.display = '';
+    expand.setAttribute(
+      'class',
+      'container__calculator__display__chalkboard__title__expand'
+    );
+    chalkboard.style.width = '';
+    canvas.style.width = '';
+    contextToCanvas();
+    expanded = false;
+  }
+}
+
+expand.addEventListener('click', expandCanvas);
 
 //

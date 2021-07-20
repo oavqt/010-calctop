@@ -129,6 +129,17 @@ body {
 .container__calculator__display__calculator__keypad__button:active {
   background-color: rgba(255, 255, 255, 0.3);
 }
+.container__calculator__display__calculator__keypad__operator,
+.container__calculator__display__calculator__keypad__x_operator,
+.container__calculator__display__calculator__keypad__percentage,
+.container__calculator__display__calculator__keypad__ce,
+.container__calculator__display__calculator__keypad__c,
+.container__calculator__display__calculator__keypad__backspace {
+  background-color: #2b2c28;
+}
+.container__calculator__display__calculator__keypad__equal {
+  background-color: #f3a712;
+}
 
 .container__calculator__display__chalkboard {
   display: flex;
@@ -152,7 +163,6 @@ body {
 
 .container__calculator__display__chalkboard__title__expand {
   background: url(../images/expand.png);
-  /* background-color: rgba(0, 0, 0, 0.4); */
   border: none;
   width: 2em;
   padding: 0;
@@ -160,7 +170,19 @@ body {
   background-position: center;
   background-repeat: no-repeat;
 }
-
+.container__calculator__display__chalkboard__title__expand--active {
+  background: url(../images/contract.png);
+  border: none;
+  width: 2em;
+  padding: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.container__calculator__display__chalkboard__title__expand--active:hover {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.2);
+}
 .container__calculator__display__chalkboard__title__expand:hover {
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.2);
