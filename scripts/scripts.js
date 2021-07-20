@@ -63,7 +63,7 @@ const operands = [
   ),
 ];
 
-function displayOperand() {
+function displayOperand(keyPress) {
   if (nextOperand === true && decimalCheck === false) {
     mainScreen.textContent = '';
   } else if (
@@ -74,7 +74,7 @@ function displayOperand() {
   }
   if (mainScreen.textContent.length <= 16) {
     noCommaResult = mainScreen.textContent.replace(removeToLocaleString, '');
-    displayResult = +(noCommaResult += this.textContent);
+    displayResult = +(noCommaResult += this.textContent || keyPress);
     mainScreen.textContent = displayResult.toLocaleString();
   }
   operandB = mainScreen.textContent.replace(removeToLocaleString, '');
@@ -277,11 +277,11 @@ function takePercentage() {
 
 percentage.addEventListener('click', takePercentage);
 
-const negative = document.querySelector(
-  '.container__calculator__display__calculator__keypad__negative'
+const negate = document.querySelector(
+  '.container__calculator__display__calculator__keypad__negate'
 );
 
-function addRemoveNegative() {
+function addRemoveNegate() {
   if (/([-])/g.test(mainScreen.textContent) === true) {
     mainScreen.textContent = mainScreen.textContent.replace(/([-])/g, '');
   } else {
@@ -291,7 +291,7 @@ function addRemoveNegative() {
   }
 }
 
-negative.addEventListener('click', addRemoveNegative);
+negate.addEventListener('click', addRemoveNegate);
 
 const decimal = document.querySelector(
   '.container__calculator__display__calculator__keypad__decimal'
@@ -366,14 +366,6 @@ canvas['addEventListener']('mousedown', draw('add', 'mousemove', 'mouseup'));
 
 canvas.addEventListener('mouseup', draw('remove', 'mousemove', 'mouseup'));
 
-const clearCanvas = document.querySelector(
-  '.container__calculator__display__chalkboard__clear'
-);
-
-clearCanvas.addEventListener('click', () => {
-  cbx.clearRect(0, 0, context.width, context.height);
-});
-
 const expand = document.querySelector(
   '.container__calculator__display__chalkboard__title__expand'
 );
@@ -397,7 +389,7 @@ function expandCanvas() {
     canvas.style.width = '100%';
     contextToCanvas();
     expanded = true;
-  } else if (expanded) {
+  } else {
     calculator.style.display = '';
     expand.setAttribute(
       'class',
@@ -412,4 +404,44 @@ function expandCanvas() {
 
 expand.addEventListener('click', expandCanvas);
 
-//
+const clearCanvas = document.querySelector(
+  '.container__calculator__display__chalkboard__footer__clear'
+);
+
+clearCanvas.addEventListener('click', () => {
+  cbx.clearRect(0, 0, context.width, context.height);
+});
+
+const eraserCanvas = document.querySelector(
+  '.container__calculator__display__chalkboard__footer__eraser'
+);
+
+let eraserIsActive;
+
+function eraserStyling() {
+  if (!eraserIsActive) {
+    cbx.strokeStyle = '#1f1f23';
+    cbx.lineWidth = 10;
+    eraserIsActive = true;
+    eraserCanvas.setAttribute(
+      'class',
+      'container__calculator__display__chalkboard__footer__eraser--active'
+    );
+  } else {
+    cbx.strokeStyle = '#f6f4f1';
+    cbx.lineWidth = 1;
+    eraserCanvas.setAttribute(
+      'class',
+      'container__calculator__display__chalkboard__footer__eraser'
+    );
+    eraserIsActive = false;
+  }
+}
+
+eraserCanvas.addEventListener('click', eraserStyling);
+
+document.addEventListener('keypress', (e) => {
+  const keys = document.querySelector(`button[data-key='${e.key}']`);
+  // displayOperand(keys.textContent);
+  console.log(e.key);
+});
