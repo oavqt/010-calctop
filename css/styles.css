@@ -260,12 +260,12 @@ body {
 }
 
 .container__information__title {
-  margin-bottom: 2em;
+  height: 100%;
 }
 
 .container__information__button {
   font-size: 1.1rem;
-  padding: 0.5em 1em;
+  padding: 1em 1em;
   border-radius: 0.1em;
   background-color: #db2b39;
   border: none;
@@ -295,4 +295,20 @@ body {
   width: 1.5em;
   height: auto;
   margin-right: 0.1em;
+}
+
+@media (max-width: 768px) {
+  .container__calculator {
+    height: 100vh;
+    width: 100vw;
+  }
+  .container__calculator__bar {
+    display: none;
+  }
+  .container__information {
+    display: none;
+  }
+  .container__calculator__display__chalkboard {
+    display: none;
+  }
 }
