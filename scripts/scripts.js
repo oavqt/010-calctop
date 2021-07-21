@@ -35,10 +35,10 @@ const operateOnX = (b, input) => {
 // populate display screen with text from button press and store the values
 
 const mainScreen = document.querySelector(
-  '.container__calculator__display__calculator__screen__main'
+  '.container__main__calculator__display__calculator__screen__main'
 );
 const secondaryScreen = document.querySelector(
-  '.container__calculator__display__calculator__screen__secondary'
+  '.container__main__calculator__display__calculator__screen__secondary'
 );
 
 let operandA = '';
@@ -59,7 +59,7 @@ let eraserIsActive;
 
 const operands = [
   ...document.querySelectorAll(
-    '.container__calculator__display__calculator__keypad__operand'
+    '.container__main__calculator__display__calculator__keypad__operand'
   ),
 ];
 
@@ -99,7 +99,7 @@ operands.forEach((operand) => {
 
 const operator = [
   ...document.querySelectorAll(
-    '.container__calculator__display__calculator__keypad__operator'
+    '.container__main__calculator__display__calculator__keypad__operator'
   ),
 ];
 
@@ -133,7 +133,7 @@ operator.forEach((operator) => {
 // call operator functions on stored values and display the result
 
 const equal = document.querySelector(
-  '.container__calculator__display__calculator__keypad__equal'
+  '.container__main__calculator__display__calculator__keypad__equal'
 );
 
 function checkForExpLength(temp) {
@@ -186,7 +186,7 @@ equal.addEventListener('click', executeOperate);
 // clear data functions
 
 const clearAll = document.querySelector(
-  '.container__calculator__display__calculator__keypad__c'
+  '.container__main__calculator__display__calculator__keypad__c'
 );
 
 function clear() {
@@ -201,7 +201,7 @@ function clear() {
 clearAll.addEventListener('click', clear);
 
 const clearEntry = document.querySelector(
-  '.container__calculator__display__calculator__keypad__ce'
+  '.container__main__calculator__display__calculator__keypad__ce'
 );
 
 clearEntry.addEventListener('click', () => {
@@ -209,7 +209,7 @@ clearEntry.addEventListener('click', () => {
 });
 
 const clearLastInput = document.querySelector(
-  '.container__calculator__display__calculator__keypad__backspace'
+  '.container__main__calculator__display__calculator__keypad__backspace'
 );
 
 function backspace() {
@@ -235,7 +235,7 @@ clearLastInput.addEventListener('click', backspace);
 
 const xOperators = [
   ...document.querySelectorAll(
-    '.container__calculator__display__calculator__keypad__x_operator'
+    '.container__main__calculator__display__calculator__keypad__x_operator'
   ),
 ];
 
@@ -277,7 +277,7 @@ xOperators.forEach((xOperator) => {
 // get and display percentage of second value based on first
 
 const percentage = document.querySelector(
-  '.container__calculator__display__calculator__keypad__percentage'
+  '.container__main__calculator__display__calculator__keypad__percentage'
 );
 
 function takePercentage() {
@@ -297,7 +297,7 @@ percentage.addEventListener('click', takePercentage);
 // add negate to current number
 
 const negate = document.querySelector(
-  '.container__calculator__display__calculator__keypad__negate'
+  '.container__main__calculator__display__calculator__keypad__negate'
 );
 
 function addRemoveNegate() {
@@ -315,7 +315,7 @@ negate.addEventListener('click', addRemoveNegate);
 // add decimal to current number
 
 const decimal = document.querySelector(
-  '.container__calculator__display__calculator__keypad__decimal'
+  '.container__main__calculator__display__calculator__keypad__decimal'
 );
 
 function addDecimal() {
@@ -336,11 +336,11 @@ decimal.addEventListener('click', addDecimal);
 // create canvas area
 
 const canvas = document.querySelector(
-  '.container__calculator__display__chalkboard__canvas'
+  '.container__main__calculator__display__chalkboard__canvas'
 );
 
 const context = document.querySelector(
-  '.container__calculator__display__chalkboard__canvas__context'
+  '.container__main__calculator__display__chalkboard__canvas__context'
 );
 
 let cbx = context.getContext('2d');
@@ -392,21 +392,21 @@ canvas.addEventListener('mouseup', draw('remove', 'mousemove', 'mouseup'));
 // button to expand canvas area
 
 const expand = document.querySelector(
-  '.container__calculator__display__chalkboard__title__expand'
+  '.container__main__calculator__display__chalkboard__title__expand'
 );
 
 function expandCanvas() {
   const calculator = document.querySelector(
-    '.container__calculator__display__calculator'
+    '.container__main__calculator__display__calculator'
   );
   const chalkboard = document.querySelector(
-    '.container__calculator__display__chalkboard'
+    '.container__main__calculator__display__chalkboard'
   );
   if (!expanded) {
     calculator.style.display = 'none';
     expand.setAttribute(
       'class',
-      'container__calculator__display__chalkboard__title__expand--active'
+      'container__main__calculator__display__chalkboard__title__expand--active'
     );
     chalkboard.style.width = '100%';
     canvas.style.width = '100%';
@@ -416,7 +416,7 @@ function expandCanvas() {
     calculator.style.display = '';
     expand.setAttribute(
       'class',
-      'container__calculator__display__chalkboard__title__expand'
+      'container__main__calculator__display__chalkboard__title__expand'
     );
     chalkboard.style.width = '';
     canvas.style.width = '';
@@ -430,7 +430,7 @@ expand.addEventListener('click', expandCanvas);
 // clear, erase canvas button
 
 const clearCanvas = document.querySelector(
-  '.container__calculator__display__chalkboard__footer__clear'
+  '.container__main__calculator__display__chalkboard__footer__clear'
 );
 
 clearCanvas.addEventListener('click', () => {
@@ -438,24 +438,24 @@ clearCanvas.addEventListener('click', () => {
 });
 
 const eraserCanvas = document.querySelector(
-  '.container__calculator__display__chalkboard__footer__eraser'
+  '.container__main__calculator__display__chalkboard__footer__eraser'
 );
 
 function eraserStyling() {
   if (!eraserIsActive) {
     cbx.strokeStyle = '#1f1f23';
-    cbx.lineWidth = 10;
+    cbx.lineWidth = 12;
     eraserIsActive = true;
     eraserCanvas.setAttribute(
       'class',
-      'container__calculator__display__chalkboard__footer__eraser--active'
+      'container__main__calculator__display__chalkboard__footer__eraser--active'
     );
   } else {
     cbx.strokeStyle = '#f6f4f1';
     cbx.lineWidth = 1;
     eraserCanvas.setAttribute(
       'class',
-      'container__calculator__display__chalkboard__footer__eraser'
+      'container__main__calculator__display__chalkboard__footer__eraser'
     );
     eraserIsActive = false;
   }
@@ -468,6 +468,10 @@ eraserCanvas.addEventListener('click', eraserStyling);
 document.addEventListener('keydown', (e) => {
   const keys = document.querySelector(`button[data-key='${e.key}']`);
   switch (true) {
+    case /\b(F9)\b/g.test(keys.getAttribute('data-key')):
+      console.log('yo');
+      addRemoveNegate();
+      break;
     case /([\d])/g.test(keys.getAttribute('data-key')):
       displayOperand(keys);
       break;
@@ -492,9 +496,6 @@ document.addEventListener('keydown', (e) => {
       break;
     case /\b(Backspace)\b/g.test(keys.getAttribute('data-key')):
       backspace();
-      break;
-    case /\b(F9)\b/g.test(keys.getAttribute('data-key')):
-      addRemoveNegate();
       break;
     case /([.])/g.test(keys.getAttribute('data-key')):
       addDecimal();
